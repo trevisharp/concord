@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Concord.UseCases.GetRoomDetail;
+using Concord.UseCases.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +38,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
+
+builder.Services.AddTransient<AuthUseCase>();
+builder.Services.AddTransient<GetRoomDetailUseCase>();
 
 var app = builder.Build();
 
