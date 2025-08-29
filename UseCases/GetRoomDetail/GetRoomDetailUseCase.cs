@@ -1,6 +1,6 @@
-using Concord.Entities;
 using Concord.Models;
-using Microsoft.AspNetCore.Identity;
+using Concord.Entities;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Concord.UseCases.GetRoomDetail;
@@ -34,11 +34,12 @@ public class GetRoomDetailUseCase(ConcordDbContext ctx)
         var response = new GetRoomDetailResponse(
             room.Name,
             room.Creator.Username,
-            [.. // Ou .ToList()
-                room.Members.Select(m => new MemberData {
+            [ ..
+                from m in room.Members
+                select new MemberData {
                     ProfileName = m.Profile.Username,
                     RoleName = m.Role.Title
-                })
+                }
             ]
         );
 
