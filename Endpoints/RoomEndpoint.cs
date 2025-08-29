@@ -19,7 +19,10 @@ public static class RoomEndpoint
             var userId = Guid.Parse(claim.Value);
             var response = await useCase.ExecuteAsync(new(userId, roomId));
 
-            return Results.Ok(response);
+            if (!response.IsSuccessfull)
+                return Results.BadRequest(response.Reason);
+
+            return Results.Ok(response.Value);
         }).RequireAuthorization();
     }
 }

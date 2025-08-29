@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Concord.UseCases.GetRoomDetail;
 using Concord.UseCases.Auth;
+using Concord.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,11 +43,18 @@ builder.Services.AddAuthorization();
 builder.Services.AddTransient<AuthUseCase>();
 builder.Services.AddTransient<GetRoomDetailUseCase>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGet("/", () => "Hello World!");
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.ConfigureAuthEndpoints();
+app.ConfigureRoomEndpoints();
 
 app.Run();
