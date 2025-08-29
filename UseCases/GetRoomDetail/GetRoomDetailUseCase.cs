@@ -34,13 +34,11 @@ public class GetRoomDetailUseCase(ConcordDbContext ctx)
         var response = new GetRoomDetailResponse(
             room.Name,
             room.Creator.Username,
-            [ ..
-                from m in room.Members
-                select new MemberData {
-                    ProfileName = m.Profile.Username,
-                    RoleName = m.Role.Title
-                }
-            ]
+            from m in room.Members
+            select new MemberData {
+                ProfileName = m.Profile.Username,
+                RoleName = m.Role.Title
+            }
         );
 
         return Result<GetRoomDetailResponse>.Success(response);
